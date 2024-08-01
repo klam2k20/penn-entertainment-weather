@@ -4,6 +4,7 @@ import { useWeather } from '../../contexts/WeatherContext'
 import { THourlyForcast } from '../../lib/types'
 import { getTemp, getTime } from '../../lib/utils'
 import Forecast from './Forecast'
+import ForecastWrapper from './ForecastWrapper'
 
 export default function HourlyForecast() {
     const { weather } = useWeather()
@@ -12,7 +13,7 @@ export default function HourlyForecast() {
     return (
         <div className="flex flex-col items-start gap-5">
             <h3>TODAY</h3>
-            <ul className="scrollbar-hide flex w-full gap-4 overflow-x-auto">
+            <ForecastWrapper className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
                 {weather &&
                     weather.hourly &&
                     weather.hourly.map((f: THourlyForcast) => (
@@ -23,7 +24,7 @@ export default function HourlyForecast() {
                             temp={getTemp(f.feels_like, unit)}
                         />
                     ))}
-            </ul>
+            </ForecastWrapper>
         </div>
     )
 }
