@@ -2,6 +2,8 @@ import { FaLocationArrow } from 'react-icons/fa6'
 import { TGeocodingApiResponse } from '../../lib/types'
 import Location from './Location'
 import { useEffect, useRef } from 'react'
+import { useQuery } from '../../contexts/QueryContext'
+import { nanoid } from 'nanoid'
 
 //todo: add hasresults prop updated on api response
 type Props = {
@@ -17,6 +19,7 @@ export default function ResultDropdown({
     setShowMenu,
 }: Props) {
     const dropdownRef = useRef<HTMLUListElement>(null)
+    const { setQuery } = useQuery()
 
     //todo: move this to separate file its also in unitmenu
     useEffect(() => {
@@ -33,6 +36,7 @@ export default function ResultDropdown({
         ) {
             setShowMenu(false)
             setResults([])
+            setQuery('')
         }
     }
 
@@ -47,7 +51,7 @@ export default function ResultDropdown({
             </li>
             {results.map((r: TGeocodingApiResponse) => (
                 <Location
-                    key={`${r.lat},${r.lon}`}
+                    key={nanoid()}
                     city={r}
                     setShowMenu={setShowMenu}
                     setResults={setResults}

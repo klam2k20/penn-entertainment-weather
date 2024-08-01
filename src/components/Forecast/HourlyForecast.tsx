@@ -1,26 +1,26 @@
 import { getForecastIcon } from '../../api/weather'
 import { useUnit } from '../../contexts/UnitContext'
 import { useWeather } from '../../contexts/WeatherContext'
-import { TDailyForecast } from '../../lib/types'
-import { getTemp, getWeekday } from '../../lib/utils'
+import { THourlyForcast } from '../../lib/types'
+import { getTemp, getTime } from '../../lib/utils'
 import Forecast from './Forecast'
 
-export default function DailyForecast() {
+export default function HourlyForecast() {
     const { weather } = useWeather()
     const { unit } = useUnit()
 
     return (
         <div className="flex flex-col items-start gap-5">
-            <h3>7 DAY FORECAST</h3>
+            <h3>TODAY</h3>
             <ul className="scrollbar-hide flex w-full gap-4 overflow-x-auto">
                 {weather &&
-                    weather.daily &&
-                    weather.daily.map((f: TDailyForecast) => (
+                    weather.hourly &&
+                    weather.hourly.map((f: THourlyForcast) => (
                         <Forecast
                             key={f.dt}
-                            date={getWeekday(f.dt).toUpperCase()}
+                            date={getTime(f.dt).toUpperCase()}
                             icon={getForecastIcon(f.weather[0].icon)}
-                            temp={getTemp(f.feels_like.day, unit)}
+                            temp={getTemp(f.feels_like, unit)}
                         />
                     ))}
             </ul>
