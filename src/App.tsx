@@ -1,7 +1,7 @@
 import DailyGrid from './components/DailyStats/DailyGrid'
 import DailyForecast from './components/Forecast/DailyForecast'
 import HourlyForecast from './components/Forecast/HourlyForecast'
-import Header from './components/Header'
+import Header from './components/Header/Header'
 import { Toaster } from 'react-hot-toast'
 
 function App() {

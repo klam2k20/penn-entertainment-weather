@@ -5,6 +5,9 @@ type Props = {
     value: string
 }
 
+/**
+ * Displays a weather statistic with a title and value.
+ */
 export default function DailyStat({ title, value }: Props) {
     const { isLoading } = useWeather()
 
@@ -18,6 +21,9 @@ export default function DailyStat({ title, value }: Props) {
     )
 }
 
+/**
+ * Displays a loading state for the DailyStat component.
+ */
 function DailyStatLoading() {
     return (
         <div className="h-full w-full animate-pulse rounded-md bg-zinc-700"></div>

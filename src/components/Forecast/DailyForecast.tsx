@@ -6,6 +6,9 @@ import { getTemp, getWeekday } from '../../lib/utils'
 import Forecast from './Forecast'
 import ForecastWrapper from './ForecastWrapper'
 
+/**
+ * Displays a 7-day weather forecast.
+ */
 export default function DailyForecast() {
     const { weather } = useWeather()
     const { unit } = useUnit()
@@ -13,7 +16,7 @@ export default function DailyForecast() {
     return (
         <div className="flex flex-col items-start gap-2 md:gap-4">
             <h1 className="font-semibold md:text-xl">7 DAY FORECAST</h1>
-            <ForecastWrapper className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
+            <ForecastWrapper className="flex w-full flex-nowrap gap-4 overflow-x-auto scrollbar-hide">
                 {weather &&
                     weather.daily &&
                     weather.daily.map((f: TDailyForecast) => (

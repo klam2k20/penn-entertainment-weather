@@ -6,6 +6,9 @@ import { getTemp, getTime } from '../../lib/utils'
 import Forecast from './Forecast'
 import ForecastWrapper from './ForecastWrapper'
 
+/**
+ * Displays an hourly weather forecast for the current day.
+ */
 export default function HourlyForecast() {
     const { weather } = useWeather()
     const { unit } = useUnit()

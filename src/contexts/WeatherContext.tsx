@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { TGeocodingApiResponse, TWeatherApiResponse } from '../lib/types'
 import { getWeather } from '../api/weather'
 import { getLocation } from '../api/geocoding'
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 type Props = {
     children: React.ReactNode
@@ -19,11 +19,17 @@ interface WeatherContextValue {
 
 const WeatherContext = createContext<WeatherContextValue | null>(null)
 
+/**
+ * A React Context for managing weather-related state across components
+ */
 const WeatherProvider = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [weather, setWeather] = useState<TWeatherApiResponse | null>(null)
     const [location, setLocation] = useState<string>('New York')
 
+    /**
+     * Initialize weather data to display New York weather
+     */
     useEffect(() => {
         const initWeather = async () => {
             try {
@@ -43,6 +49,11 @@ const WeatherProvider = ({ children }: Props) => {
         initWeather()
     }, [])
 
+    /**
+     * Fetches weather data based on geographical coordinates.
+     * @param lat: The latitude of the location.
+     * @param lon: The longitude of the location.
+     */
     const fetchWeather = async (lat: number, lon: number) => {
         try {
             const response = await getWeather(lat, lon)

@@ -1,20 +1,32 @@
 import { useCallback, useState } from 'react'
-import { CiSearch } from 'react-icons/ci'
-import { cn } from '../../lib/utils'
-import { getLocation } from '../../api/geocoding'
-import CitiesDropdown from './CitiesDropdown'
-import { useWeather } from '../../contexts/WeatherContext'
-import { useQuery } from '../../contexts/QueryContext'
-import { useCities } from '../../contexts/CityContext'
 import { toast } from 'react-hot-toast'
+import { CiSearch } from 'react-icons/ci'
+import { getLocation } from '../../api/geocoding'
+import { useCities } from '../../contexts/CityContext'
+import { useQuery } from '../../contexts/QueryContext'
+import { useWeather } from '../../contexts/WeatherContext'
+import { cn } from '../../lib/utils'
+import CitiesDropdown from './CitiesDropdown'
 
+/**
+ * A search input component that allows users to search for locations and displays a dropdown of matching cities.
+ */
 export default function Searchbar() {
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const { setCities, setLoading, setHasCities } = useCities()
     const { location } = useWeather()
     const { query, setQuery } = useQuery()
 
-    const handleKeyPress = async (
+    /**
+     * Handles submitting the user's query when ENTER is pressed by:
+     * Sets the loading state to true.
+     * Calls the `getLocation` function with the current query.
+     * Updates the `hasCities` state based on whether any locations were found.
+     * Updates the `cities` state with the response from `getLocation`.
+     * Handles any errors that occur during the process.
+     * Sets the loading state back to false when the operation is complete.
+     */
+    const handleSubmit = async (
         event: React.KeyboardEvent<HTMLInputElement>
     ) => {
         if (event.key === 'Enter' && query.trim() !== '') {
@@ -54,7 +66,7 @@ export default function Searchbar() {
                     placeholder={`${location} Weather`}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => handleKeyPress(e)}
+                    onKeyDown={(e) => handleSubmit(e)}
                     className="w-full border-none bg-transparent p-0 text-sm focus-visible:outline-none focus-visible:ring-0"
                     onFocus={() => setShowMenu(true)}
                 />

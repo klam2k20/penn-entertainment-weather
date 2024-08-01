@@ -11,6 +11,9 @@ interface QueryContextValue {
 
 const QueryContext = createContext<QueryContextValue | null>(null)
 
+/**
+ * A React Context for managing query-related state across components
+ */
 const QueryProvider = ({ children }: Props) => {
     const [query, setQuery] = useState<string>('')
 

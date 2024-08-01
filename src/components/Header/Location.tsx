@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import { useCities } from '../../contexts/CityContext'
 import { useQuery } from '../../contexts/QueryContext'
 import { useWeather } from '../../contexts/WeatherContext'
@@ -9,15 +9,21 @@ type Props = {
     setShowMenu: (state: boolean) => void
 }
 
+/**
+ * Represents a single location item in the CitiesDropdown.
+ */
 export default function Location({ city, setShowMenu }: Props) {
     const { fetchWeather, updateLocation, setIsLoading } = useWeather()
     const { setQuery } = useQuery()
     const { setCities } = useCities()
 
-    //todo: handle error states
-    const handleClick = async (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    /**
+     * Handles when a user selects a location from the CitiesDropdown by:
+     * Sets the loading state to true.
+     * Calls the `fetchWeather` function with the current selected city.
+     * Calls the `updateLocation` function to update the location
+     */
+    const handleClick = async (event: React.MouseEvent) => {
         event.preventDefault()
         try {
             setIsLoading(true)

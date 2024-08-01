@@ -6,6 +6,9 @@ type Props = {
     temp: number
 }
 
+/**
+ * Displays a single forecast item with the date, weather icon, and temperature.
+ */
 export default function Forecast({ date, icon, temp }: Props) {
     const { isLoading } = useWeather()
 
@@ -20,6 +23,9 @@ export default function Forecast({ date, icon, temp }: Props) {
     )
 }
 
+/**
+ * Displays a loading state for the Forecast component.
+ */
 function ForecastLoading() {
     return (
         <div className="min-h-36 min-w-16 animate-pulse rounded-md bg-zinc-700 p-2 lg:min-h-48 lg:min-w-32 lg:p-4" />
