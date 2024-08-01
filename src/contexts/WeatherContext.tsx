@@ -9,10 +9,11 @@ type Props = {
 
 interface WeatherContextValue {
     weather: TWeatherApiResponse | null
-    location: string
     fetchWeather: (lat: number, lon: number) => void
-    isLoading: boolean
+    location: string
     updateLocation: (city: TGeocodingApiResponse) => void
+    isLoading: boolean
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const WeatherContext = createContext<WeatherContextValue | null>(null)
@@ -40,18 +41,15 @@ const WeatherProvider = ({ children }: Props) => {
 
     const fetchWeather = async (lat: number, lon: number) => {
         try {
-            setIsLoading(true)
             const response = await getWeather(lat, lon)
             setWeather(response)
         } catch (error) {
             console.log('Error fetching weather data: ', error)
-        } finally {
-            setIsLoading(false)
         }
     }
 
     const updateLocation = (city: TGeocodingApiResponse) => {
-        setLocation(`${city.name}, ${city?.state} ${city.country}`)
+        setLocation(`${city.name}, ${city?.state || ''} ${city.country}`)
     }
 
     return (
@@ -62,6 +60,7 @@ const WeatherProvider = ({ children }: Props) => {
                 isLoading,
                 location,
                 updateLocation,
+                setIsLoading,
             }}
         >
             {children}

@@ -2,36 +2,33 @@ import { useCallback, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { cn } from '../../lib/utils'
 import { getLocation } from '../../api/geocoding'
-import { TGeocodingApiResponse } from '../../lib/types'
 import ResultDropdown from './ResultDropdown'
 import { useWeather } from '../../contexts/WeatherContext'
 import { useQuery } from '../../contexts/QueryContext'
+import { useCities } from '../../contexts/CityContext'
 
 export default function Searchbar() {
     const [showMenu, setShowMenu] = useState<boolean>(false)
-    const [results, setResults] = useState<TGeocodingApiResponse[]>([])
+    const { setCities, setLoading } = useCities()
     const { location } = useWeather()
     const { query, setQuery } = useQuery()
 
-    //todo: handle loading state
     //todo: handle error state
     const handleKeyPress = async (
         event: React.KeyboardEvent<HTMLInputElement>
     ) => {
         if (event.key === 'Enter' && query.trim() !== '') {
             try {
+                setLoading(true)
                 const response = await getLocation(query)
-                setResults(response)
+                setCities(response)
             } catch (error) {
                 console.log('Error fetching location data: ', error)
+            } finally {
+                setLoading(false)
             }
         }
     }
-
-    const memoSetResults = useCallback(
-        (state: TGeocodingApiResponse[]) => setResults(state),
-        []
-    )
 
     const memoSetShowMenu = useCallback(
         (state: boolean) => setShowMenu(state),
@@ -57,13 +54,7 @@ export default function Searchbar() {
                     onFocus={() => setShowMenu(true)}
                 />
             </div>
-            {showMenu && (
-                <ResultDropdown
-                    results={results}
-                    setResults={memoSetResults}
-                    setShowMenu={memoSetShowMenu}
-                />
-            )}
+            {showMenu && <ResultDropdown setShowMenu={memoSetShowMenu} />}
         </div>
     )
 }
