@@ -1,3 +1,4 @@
+import DailyGrid from './components/DailyStats/DailyGrid'
 import DailyForecast from './components/Forecast/DailyForecast'
 import HourlyForecast from './components/Forecast/HourlyForecast'
 import Header from './components/Header'
@@ -8,6 +9,7 @@ function App() {
             <Header />
             <DailyForecast />
             <HourlyForecast />
+            <DailyGrid />
         </div>
     )
 }
