@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
-import { TWeatherApiResponse } from '../lib/types'
-import getWeather from '../api/weather'
+import { TGeocodingApiResponse, TWeatherApiResponse } from '../lib/types'
+import { getWeather } from '../api/weather'
 
 type Props = {
     children: React.ReactNode
@@ -8,8 +8,10 @@ type Props = {
 
 interface WeatherContextValue {
     weather: TWeatherApiResponse | null
+    location: string
     fetchWeather: (lat: number, lon: number) => void
     isLoading: boolean
+    updateLocation: (city: TGeocodingApiResponse) => void
 }
 
 const WeatherContext = createContext<WeatherContextValue | null>(null)
@@ -18,6 +20,7 @@ const WeatherContext = createContext<WeatherContextValue | null>(null)
 const WeatherProvider = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [weather, setWeather] = useState<TWeatherApiResponse | null>(null)
+    const [location, setLocation] = useState<string>('New York')
 
     const fetchWeather = async (lat: number, lon: number) => {
         try {
@@ -31,12 +34,18 @@ const WeatherProvider = ({ children }: Props) => {
         }
     }
 
+    const updateLocation = (city: TGeocodingApiResponse) => {
+        setLocation(`${city.name}, ${city?.state} ${city.country}`)
+    }
+
     return (
         <WeatherContext.Provider
             value={{
                 weather,
                 fetchWeather,
                 isLoading,
+                location,
+                updateLocation,
             }}
         >
             {children}

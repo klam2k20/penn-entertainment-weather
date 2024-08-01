@@ -1,13 +1,16 @@
+import { useQuery } from '../../contexts/QueryContext'
 import { useWeather } from '../../contexts/WeatherContext'
 import { TGeocodingApiResponse } from '../../lib/types'
 
 type Props = {
     city: TGeocodingApiResponse
     setShowMenu: (state: boolean) => void
+    setResults: (state: TGeocodingApiResponse[]) => void
 }
 
-export default function Location({ city, setShowMenu }: Props) {
-    const { fetchWeather } = useWeather()
+export default function Location({ city, setShowMenu, setResults }: Props) {
+    const { fetchWeather, updateLocation } = useWeather()
+    const { setQuery } = useQuery()
 
     //todo: handle error states
     const handleClick = async (
@@ -16,10 +19,13 @@ export default function Location({ city, setShowMenu }: Props) {
         event.preventDefault()
         try {
             fetchWeather(city.lat, city.lon)
+            updateLocation(city)
         } catch (error) {
             console.log('Error fetching weather data: ', error)
         } finally {
             setShowMenu(false)
+            setResults([])
+            setQuery('')
         }
     }
 
