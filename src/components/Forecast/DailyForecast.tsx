@@ -11,7 +11,7 @@ export default function DailyForecast() {
 
     return (
         <div className="flex flex-col items-start gap-5">
-            <h3>7 DAY FORECAST</h3>
+            <h1>7 DAY FORECAST</h1>
             <ul className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
                 {weather &&
                     weather.daily &&
