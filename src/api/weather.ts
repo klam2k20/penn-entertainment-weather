@@ -24,6 +24,6 @@ async function getWeather(lat: number, lon: number): Promise<TWeatherApiResponse
  * @param code: The weather icon code.
  * @returns: The URL of the weather icon.
  */
-const getForecastIcon = (code: string) => `http://openweathermap.org/img/wn/${code}@2x.png`;
+const getForecastIcon = (code: string) => `https://openweathermap.org/img/wn/${code}@2x.png`;
 
 export { getForecastIcon, getWeather };
