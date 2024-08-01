@@ -9,7 +9,7 @@ import { useCities } from '../../contexts/CityContext'
 
 export default function Searchbar() {
     const [showMenu, setShowMenu] = useState<boolean>(false)
-    const { setCities, setLoading } = useCities()
+    const { setCities, setLoading, setHasCities } = useCities()
     const { location } = useWeather()
     const { query, setQuery } = useQuery()
 
@@ -21,6 +21,9 @@ export default function Searchbar() {
             try {
                 setLoading(true)
                 const response = await getLocation(query)
+                console.log(response, 'response===')
+                if (response.length > 0) setHasCities(true)
+                else setHasCities(false)
                 setCities(response)
             } catch (error) {
                 console.log('Error fetching location data: ', error)

@@ -10,12 +10,15 @@ interface CityContextValue {
     setCities: React.Dispatch<React.SetStateAction<TGeocodingApiResponse[]>>
     loading: boolean
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    hasCities: boolean
+    setHasCities: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const CityContext = createContext<CityContextValue | null>(null)
 
 const CityProvider = ({ children }: Props) => {
     const [cities, setCities] = useState<TGeocodingApiResponse[]>([])
+    const [hasCities, setHasCities] = useState<boolean>(true)
     const [loading, setLoading] = useState<boolean>(false)
 
     return (
@@ -25,6 +28,8 @@ const CityProvider = ({ children }: Props) => {
                 setCities,
                 loading,
                 setLoading,
+                hasCities,
+                setHasCities,
             }}
         >
             {children}

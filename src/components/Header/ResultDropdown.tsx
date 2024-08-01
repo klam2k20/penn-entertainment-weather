@@ -12,12 +12,11 @@ type Props = {
     setShowMenu: (state: boolean) => void
 }
 
-//todo: handle empty state
 export default function ResultDropdown({ setShowMenu }: Props) {
     const dropdownRef = useRef<HTMLUListElement>(null)
     const { fetchWeather, updateLocation, setIsLoading } = useWeather()
-    const { cities, setCities, loading } = useCities()
-    const { setQuery } = useQuery()
+    const { cities, setCities, loading, hasCities } = useCities()
+    const { query, setQuery } = useQuery()
 
     //todo: move this to separate file its also in unitmenu
     useEffect(() => {
@@ -65,6 +64,7 @@ export default function ResultDropdown({ setShowMenu }: Props) {
             </ul>
         )
     }
+
     return (
         <ul
             ref={dropdownRef}
@@ -82,6 +82,7 @@ export default function ResultDropdown({ setShowMenu }: Props) {
             {cities.map((r: TGeocodingApiResponse) => (
                 <Location key={nanoid()} city={r} setShowMenu={setShowMenu} />
             ))}
+            {!hasCities && <div>{`No results found for: ${query}`}</div>}
         </ul>
     )
 }
