@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { cn } from '../../lib/utils'
 import getLocation from '../../api/geocoding'
@@ -19,16 +19,21 @@ export default function Searchbar() {
             try {
                 const response = await getLocation(query)
                 setResults(response)
-            } catch (e) {
-                console.log('Error fetching location data: ', e)
+            } catch (error) {
+                console.log('Error fetching location data: ', error)
             }
         }
     }
 
-    const handleCloseDropdown = () => {
-        setShowMenu(false)
-        setResults([])
-    }
+    const memoSetResults = useCallback(
+        (state: TGeocodingApiResponse[]) => setResults(state),
+        []
+    )
+
+    const memoSetShowMenu = useCallback(
+        (state: boolean) => setShowMenu(state),
+        []
+    )
 
     return (
         <div className="relative flex w-full flex-col md:w-2/3 lg:w-1/2">
@@ -47,10 +52,15 @@ export default function Searchbar() {
                     onKeyDown={(e) => handleKeyPress(e)}
                     className="w-full border-none bg-transparent p-0 text-sm focus-visible:outline-none focus-visible:ring-0"
                     onFocus={() => setShowMenu(true)}
-                    onBlur={() => handleCloseDropdown()}
                 />
             </div>
-            {showMenu && <ResultDropdown results={results} />}
+            {showMenu && (
+                <ResultDropdown
+                    results={results}
+                    setResults={memoSetResults}
+                    setShowMenu={memoSetShowMenu}
+                />
+            )}
         </div>
     )
 }
