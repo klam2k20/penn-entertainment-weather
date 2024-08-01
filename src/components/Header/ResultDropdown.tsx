@@ -4,6 +4,8 @@ import Location from './Location'
 import { useEffect, useRef } from 'react'
 import { useQuery } from '../../contexts/QueryContext'
 import { nanoid } from 'nanoid'
+import { useWeather } from '../../contexts/WeatherContext'
+import { getCity } from '../../api/geocoding'
 
 //todo: add hasresults prop updated on api response
 type Props = {
@@ -19,6 +21,7 @@ export default function ResultDropdown({
     setShowMenu,
 }: Props) {
     const dropdownRef = useRef<HTMLUListElement>(null)
+    const { fetchWeather, updateLocation } = useWeather()
     const { setQuery } = useQuery()
 
     //todo: move this to separate file its also in unitmenu
@@ -40,14 +43,32 @@ export default function ResultDropdown({
         }
     }
 
+    const handleGeolocation = () => {
+        let lat, lon
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            lat = position.coords.latitude
+            lon = position.coords.longitude
+            fetchWeather(lat, lon)
+            const city = await getCity(lat, lon)
+            updateLocation(city[0])
+        })
+        setShowMenu(false)
+        setQuery('')
+    }
+
     return (
         <ul
             ref={dropdownRef}
             className="absolute top-10 flex w-full flex-col gap-2 bg-zinc-700 px-6 py-3"
         >
-            <li className="flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-50">
-                <FaLocationArrow className="h-4 w-4" />
-                <p>Use your current location</p>
+            <li className="cursor-pointer transition-opacity hover:opacity-50">
+                <button
+                    className="flex items-center gap-2"
+                    onClick={handleGeolocation}
+                >
+                    <FaLocationArrow className="h-4 w-4" />
+                    <p>Use your current location</p>
+                </button>
             </li>
             {results.map((r: TGeocodingApiResponse) => (
                 <Location
