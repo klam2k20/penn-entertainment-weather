@@ -12,7 +12,7 @@ export default function HourlyForecast() {
 
     return (
         <div className="flex flex-col items-start gap-5">
-            <h3>TODAY</h3>
+            <h1>TODAY</h1>
             <ForecastWrapper className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
                 {weather &&
                     weather.hourly &&
