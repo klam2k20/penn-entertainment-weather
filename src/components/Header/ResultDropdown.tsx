@@ -46,7 +46,11 @@ export default function ResultDropdown({
                 <p>Use your current location</p>
             </li>
             {results.map((r: TGeocodingApiResponse) => (
-                <Location key={`${r.lat},${r.lon}`} city={r} />
+                <Location
+                    key={`${r.lat},${r.lon}`}
+                    city={r}
+                    setShowMenu={setShowMenu}
+                />
             ))}
         </ul>
     )

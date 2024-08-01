@@ -1,21 +1,25 @@
-import getWeather from '../../api/weather'
+import { useWeather } from '../../contexts/WeatherContext'
 import { TGeocodingApiResponse } from '../../lib/types'
 
 type Props = {
     city: TGeocodingApiResponse
+    setShowMenu: (state: boolean) => void
 }
 
-export default function Location({ city }: Props) {
+export default function Location({ city, setShowMenu }: Props) {
+    const { fetchWeather } = useWeather()
+
+    //todo: handle error states
     const handleClick = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault()
         try {
-            console.log('grab weather ')
-            const response = await getWeather(city.lat, city.lon)
-            console.log(response)
+            fetchWeather(city.lat, city.lon)
         } catch (error) {
             console.log('Error fetching weather data: ', error)
+        } finally {
+            setShowMenu(false)
         }
     }
 
