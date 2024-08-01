@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid'
 import { useWeather } from '../../contexts/WeatherContext'
 import { getCity } from '../../api/geocoding'
 import { useCities } from '../../contexts/CityContext'
+import toast from 'react-hot-toast'
 
 type Props = {
     setShowMenu: (state: boolean) => void
@@ -18,7 +19,6 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
     const { cities, setCities, loading, hasCities } = useCities()
     const { query, setQuery } = useQuery()
 
-    //todo: move this to separate file its also in unitmenu
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside)
         return () => {
@@ -42,15 +42,23 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
         setQuery('')
 
         let lat, lon
-        navigator.geolocation.getCurrentPosition(async (position) => {
-            setIsLoading(true)
-            lat = position.coords.latitude
-            lon = position.coords.longitude
-            fetchWeather(lat, lon)
-            const city = await getCity(lat, lon)
-            updateLocation(city[0])
-            setIsLoading(false)
-        })
+
+        try {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                setIsLoading(true)
+                lat = position.coords.latitude
+                lon = position.coords.longitude
+                fetchWeather(lat, lon)
+                const city = await getCity(lat, lon)
+                updateLocation(city[0])
+                setIsLoading(false)
+            })
+        } catch (error) {
+            console.log('Error fetching geo location data: ', error)
+            toast.error(
+                "We are having trouble fetching your current location's weather right now. Please try again later."
+            )
+        }
     }
 
     if (loading) {

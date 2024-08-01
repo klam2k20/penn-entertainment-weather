@@ -6,6 +6,7 @@ import CitiesDropdown from './CitiesDropdown'
 import { useWeather } from '../../contexts/WeatherContext'
 import { useQuery } from '../../contexts/QueryContext'
 import { useCities } from '../../contexts/CityContext'
+import { toast } from 'react-hot-toast'
 
 export default function Searchbar() {
     const [showMenu, setShowMenu] = useState<boolean>(false)
@@ -20,12 +21,14 @@ export default function Searchbar() {
             try {
                 setLoading(true)
                 const response = await getLocation(query)
-                console.log(response, 'response===')
                 if (response.length > 0) setHasCities(true)
                 else setHasCities(false)
                 setCities(response)
             } catch (error) {
                 console.log('Error fetching location data: ', error)
+                toast.error(
+                    'We are having trouble completing your search right now. Please try again later.'
+                )
             } finally {
                 setLoading(false)
             }

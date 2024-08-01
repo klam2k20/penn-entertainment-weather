@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { TGeocodingApiResponse, TWeatherApiResponse } from '../lib/types'
 import { getWeather } from '../api/weather'
 import { getLocation } from '../api/geocoding'
+import toast from 'react-hot-toast'
 
 type Props = {
     children: React.ReactNode
@@ -33,6 +34,9 @@ const WeatherProvider = ({ children }: Props) => {
                 setIsLoading(false)
             } catch (error) {
                 console.log('Error initializing weather data: ', error)
+                toast.error(
+                    'We are having trouble fetching the weather data right now. Please try again later.'
+                )
             }
         }
 
@@ -45,6 +49,9 @@ const WeatherProvider = ({ children }: Props) => {
             setWeather(response)
         } catch (error) {
             console.log('Error fetching weather data: ', error)
+            toast.error(
+                'We are having trouble fetching the weather data right now. Please try again later.'
+            )
         }
     }
 
