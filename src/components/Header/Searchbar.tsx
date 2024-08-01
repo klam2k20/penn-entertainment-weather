@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { cn } from '../../lib/utils'
 import { getLocation } from '../../api/geocoding'
-import ResultDropdown from './ResultDropdown'
+import CitiesDropdown from './CitiesDropdown'
 import { useWeather } from '../../contexts/WeatherContext'
 import { useQuery } from '../../contexts/QueryContext'
 import { useCities } from '../../contexts/CityContext'
@@ -13,7 +13,6 @@ export default function Searchbar() {
     const { location } = useWeather()
     const { query, setQuery } = useQuery()
 
-    //todo: handle error state
     const handleKeyPress = async (
         event: React.KeyboardEvent<HTMLInputElement>
     ) => {
@@ -57,7 +56,7 @@ export default function Searchbar() {
                     onFocus={() => setShowMenu(true)}
                 />
             </div>
-            {showMenu && <ResultDropdown setShowMenu={memoSetShowMenu} />}
+            {showMenu && <CitiesDropdown setShowMenu={memoSetShowMenu} />}
         </div>
     )
 }

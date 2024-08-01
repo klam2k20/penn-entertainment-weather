@@ -12,7 +12,7 @@ type Props = {
     setShowMenu: (state: boolean) => void
 }
 
-export default function ResultDropdown({ setShowMenu }: Props) {
+export default function CitiesDropdown({ setShowMenu }: Props) {
     const dropdownRef = useRef<HTMLUListElement>(null)
     const { fetchWeather, updateLocation, setIsLoading } = useWeather()
     const { cities, setCities, loading, hasCities } = useCities()
@@ -82,7 +82,7 @@ export default function ResultDropdown({ setShowMenu }: Props) {
             {cities.map((r: TGeocodingApiResponse) => (
                 <Location key={nanoid()} city={r} setShowMenu={setShowMenu} />
             ))}
-            {!hasCities && <div>{`No results found for: ${query}`}</div>}
+            {!hasCities && <div>{`No Citiess found for: ${query}`}</div>}
         </ul>
     )
 }
