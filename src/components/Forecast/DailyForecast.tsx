@@ -4,6 +4,7 @@ import { useWeather } from '../../contexts/WeatherContext'
 import { TDailyForecast } from '../../lib/types'
 import { getTemp, getWeekday } from '../../lib/utils'
 import Forecast from './Forecast'
+import ForecastWrapper from './ForecastWrapper'
 
 export default function DailyForecast() {
     const { weather } = useWeather()
@@ -12,7 +13,7 @@ export default function DailyForecast() {
     return (
         <div className="flex flex-col items-start gap-2 md:gap-4">
             <h1 className="font-semibold md:text-xl">7 DAY FORECAST</h1>
-            <ul className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
+            <ForecastWrapper className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
                 {weather &&
                     weather.daily &&
                     weather.daily.map((f: TDailyForecast) => (
@@ -23,7 +24,7 @@ export default function DailyForecast() {
                             temp={getTemp(f.feels_like.day, unit)}
                         />
                     ))}
-            </ul>
+            </ForecastWrapper>
         </div>
     )
 }

@@ -6,22 +6,17 @@ import { useQuery } from '../../contexts/QueryContext'
 import { nanoid } from 'nanoid'
 import { useWeather } from '../../contexts/WeatherContext'
 import { getCity } from '../../api/geocoding'
+import { useCities } from '../../contexts/CityContext'
 
-//todo: add hasresults prop updated on api response
 type Props = {
-    results: TGeocodingApiResponse[]
-    setResults: (state: TGeocodingApiResponse[]) => void
     setShowMenu: (state: boolean) => void
 }
 
 //todo: handle empty state
-export default function ResultDropdown({
-    results,
-    setResults,
-    setShowMenu,
-}: Props) {
+export default function ResultDropdown({ setShowMenu }: Props) {
     const dropdownRef = useRef<HTMLUListElement>(null)
-    const { fetchWeather, updateLocation } = useWeather()
+    const { fetchWeather, updateLocation, setIsLoading } = useWeather()
+    const { cities, setCities, loading } = useCities()
     const { setQuery } = useQuery()
 
     //todo: move this to separate file its also in unitmenu
@@ -38,24 +33,38 @@ export default function ResultDropdown({
             !dropdownRef.current.contains(event.target as Node)
         ) {
             setShowMenu(false)
-            setResults([])
+            setCities([])
             setQuery('')
         }
     }
 
     const handleGeolocation = () => {
+        setShowMenu(false)
+        setQuery('')
+
         let lat, lon
         navigator.geolocation.getCurrentPosition(async (position) => {
+            setIsLoading(true)
             lat = position.coords.latitude
             lon = position.coords.longitude
             fetchWeather(lat, lon)
             const city = await getCity(lat, lon)
             updateLocation(city[0])
+            setIsLoading(false)
         })
-        setShowMenu(false)
-        setQuery('')
     }
 
+    if (loading) {
+        return (
+            <ul className="absolute top-10 flex w-full flex-col gap-2 bg-zinc-700 px-6 py-3">
+                <li className="h-6 w-full animate-pulse rounded-md bg-zinc-500" />
+                <li className="h-6 w-full animate-pulse rounded-md bg-zinc-500" />
+                <li className="h-6 w-full animate-pulse rounded-md bg-zinc-500" />
+                <li className="h-6 w-full animate-pulse rounded-md bg-zinc-500" />
+                <li className="h-6 w-full animate-pulse rounded-md bg-zinc-500" />
+            </ul>
+        )
+    }
     return (
         <ul
             ref={dropdownRef}
@@ -70,13 +79,8 @@ export default function ResultDropdown({
                     <p>Use your current location</p>
                 </button>
             </li>
-            {results.map((r: TGeocodingApiResponse) => (
-                <Location
-                    key={nanoid()}
-                    city={r}
-                    setShowMenu={setShowMenu}
-                    setResults={setResults}
-                />
+            {cities.map((r: TGeocodingApiResponse) => (
+                <Location key={nanoid()} city={r} setShowMenu={setShowMenu} />
             ))}
         </ul>
     )

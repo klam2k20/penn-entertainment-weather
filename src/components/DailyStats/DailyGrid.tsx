@@ -9,8 +9,14 @@ import {
 import DailyStat from './DailyStat'
 
 export default function DailyGrid() {
-    const { weather } = useWeather()
+    const { weather, isLoading } = useWeather()
     const { unit } = useUnit()
+
+    if (isLoading) {
+        return (
+            <div className="h-64 w-full animate-pulse rounded-md bg-zinc-700" />
+        )
+    }
 
     return (
         weather &&
