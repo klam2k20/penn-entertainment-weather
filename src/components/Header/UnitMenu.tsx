@@ -3,7 +3,6 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import UnitDropdown from './UnitDropdown'
 
 export default function UnitMenu() {
-    const [unit, setUnit] = useState<string>('imperial')
     const [showMenu, setShowMenu] = useState<boolean>(true)
     const menuRef = useRef<HTMLDivElement>(null)
 
@@ -13,8 +12,6 @@ export default function UnitMenu() {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
-
-    const memoSetUnit = useCallback((state: string) => setUnit(state), [])
 
     const memoSetShowMenu = useCallback(
         (state: boolean) => setShowMenu(state),
@@ -36,13 +33,7 @@ export default function UnitMenu() {
                 className="h-4 w-4 cursor-pointer"
                 onClick={() => setShowMenu((prev) => !prev)}
             />
-            {showMenu && (
-                <UnitDropdown
-                    unit={unit}
-                    setUnit={memoSetUnit}
-                    setShowMenu={memoSetShowMenu}
-                />
-            )}
+            {showMenu && <UnitDropdown setShowMenu={memoSetShowMenu} />}
         </div>
     )
 }

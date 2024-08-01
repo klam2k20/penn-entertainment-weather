@@ -1,12 +1,13 @@
+import { useUnit } from '../../contexts/UnitContext'
 import { cn } from '../../lib/utils'
 
 type Props = {
-    unit: string
-    setUnit: (state: string) => void
     setShowMenu: (state: boolean) => void
 }
 
-export default function UnitDropdown({ unit, setUnit, setShowMenu }: Props) {
+export default function UnitDropdown({ setShowMenu }: Props) {
+    const { unit, setUnit } = useUnit()
+
     const handlePress = (unit: string) => {
         setUnit(unit)
         setShowMenu(false)

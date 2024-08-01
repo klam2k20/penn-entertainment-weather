@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { cn } from '../../lib/utils'
+import { useUnit } from '../../contexts/UnitContext'
 
 export default function UnitToggle() {
-    const [unit, setUnit] = useState<string>('imperial')
+    const { unit, setUnit } = useUnit()
 
     return (
         <div className="hidden h-10 w-fit items-center justify-between gap-1 rounded-md bg-zinc-700 md:flex">
