@@ -2,6 +2,7 @@ import DailyGrid from './components/DailyStats/DailyGrid'
 import DailyForecast from './components/Forecast/DailyForecast'
 import HourlyForecast from './components/Forecast/HourlyForecast'
 import Header from './components/Header'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
     return (
@@ -10,6 +11,10 @@ function App() {
             <DailyForecast />
             <HourlyForecast />
             <DailyGrid />
+            <Toaster
+                position="bottom-center"
+                toastOptions={{ duration: 3000 }}
+            />
         </div>
     )
 }

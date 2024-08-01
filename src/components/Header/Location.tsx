@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import { useCities } from '../../contexts/CityContext'
 import { useQuery } from '../../contexts/QueryContext'
 import { useWeather } from '../../contexts/WeatherContext'
@@ -24,6 +25,9 @@ export default function Location({ city, setShowMenu }: Props) {
             updateLocation(city)
         } catch (error) {
             console.log('Error fetching weather data: ', error)
+            toast.error(
+                'We are having trouble fetching the weather data right now. Please try again later.'
+            )
         } finally {
             setShowMenu(false)
             setCities([])

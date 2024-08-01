@@ -4,7 +4,7 @@ import UnitDropdown from './UnitDropdown'
 
 export default function UnitMenu() {
     const [showMenu, setShowMenu] = useState<boolean>(true)
-    const menuRef = useRef<HTMLDivElement>(null)
+    const menuRef = useRef<HTMLUListElement>(null)
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside)
@@ -28,12 +28,12 @@ export default function UnitMenu() {
     }
 
     return (
-        <div className="relative p-2 md:hidden" ref={menuRef}>
+        <ul className="relative p-2 md:hidden" ref={menuRef}>
             <BsThreeDotsVertical
                 className="h-4 w-4 cursor-pointer"
                 onClick={() => setShowMenu((prev) => !prev)}
             />
             {showMenu && <UnitDropdown setShowMenu={memoSetShowMenu} />}
-        </div>
+        </ul>
     )
 }
