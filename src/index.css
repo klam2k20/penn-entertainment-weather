@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply m-0 box-border p-0;
+  }
+
+  body {
+    @apply h-full w-full bg-zinc-900 p-4 text-white md:p-6 lg:p-8 xl:p-10;
+  }
+}
