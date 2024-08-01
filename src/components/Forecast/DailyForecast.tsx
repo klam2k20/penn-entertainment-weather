@@ -12,7 +12,7 @@ export default function DailyForecast() {
     return (
         <div className="flex flex-col items-start gap-5">
             <h3>7 DAY FORECAST</h3>
-            <ul className="scrollbar-hide flex w-full gap-4 overflow-x-auto">
+            <ul className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
                 {weather &&
                     weather.daily &&
                     weather.daily.map((f: TDailyForecast) => (
