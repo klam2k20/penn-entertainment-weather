@@ -1,6 +1,9 @@
-import { cn } from '../../lib/utils'
 import { useUnit } from '../../contexts/UnitContext'
+import { cn } from '../../lib/utils'
 
+/**
+ * A component that provides buttons to toggle between imperial and metric units for larger screens.
+ */
 export default function UnitToggle() {
     const { unit, setUnit } = useUnit()
 

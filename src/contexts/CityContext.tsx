@@ -16,6 +16,9 @@ interface CityContextValue {
 
 const CityContext = createContext<CityContextValue | null>(null)
 
+/**
+ * A React Context for managing city-related state across components
+ */
 const CityProvider = ({ children }: Props) => {
     const [cities, setCities] = useState<TGeocodingApiResponse[]>([])
     const [hasCities, setHasCities] = useState<boolean>(true)
@@ -43,4 +46,4 @@ const useCities = () => {
     return context
 }
 
-export { useCities, CityProvider }
+export { CityProvider, useCities }

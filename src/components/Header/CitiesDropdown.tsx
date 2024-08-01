@@ -1,24 +1,31 @@
-import { FaLocationArrow } from 'react-icons/fa6'
-import { TGeocodingApiResponse } from '../../lib/types'
-import Location from './Location'
-import { useEffect, useRef } from 'react'
-import { useQuery } from '../../contexts/QueryContext'
 import { nanoid } from 'nanoid'
-import { useWeather } from '../../contexts/WeatherContext'
+import { useEffect, useRef } from 'react'
+import { toast } from 'react-hot-toast'
+import { FaLocationArrow } from 'react-icons/fa6'
 import { getCity } from '../../api/geocoding'
 import { useCities } from '../../contexts/CityContext'
-import toast from 'react-hot-toast'
+import { useQuery } from '../../contexts/QueryContext'
+import { useWeather } from '../../contexts/WeatherContext'
+import { TGeocodingApiResponse } from '../../lib/types'
+import Location from './Location'
 
 type Props = {
     setShowMenu: (state: boolean) => void
 }
 
+/**
+ * A dropdown component that displays a list of cities based on a search query and allows the user to select their current location.
+ */
 export default function CitiesDropdown({ setShowMenu }: Props) {
     const dropdownRef = useRef<HTMLUListElement>(null)
     const { fetchWeather, updateLocation, setIsLoading } = useWeather()
     const { cities, setCities, loading, hasCities } = useCities()
     const { query, setQuery } = useQuery()
 
+    /**
+     * Listen for mouse down events to handle when a user
+     * clicks outside the cities dropdown
+     */
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside)
         return () => {
@@ -26,6 +33,9 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
         }
     }, [])
 
+    /**
+     * Handle closing the cities dropdown when user clicks outside it
+     */
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
         if (
             dropdownRef.current &&
@@ -38,21 +48,20 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
     }
 
     const handleGeolocation = () => {
-        setShowMenu(false)
-        setQuery('')
-
         let lat, lon
 
         try {
+            setShowMenu(false)
+            setQuery('')
+            setIsLoading(true)
             navigator.geolocation.getCurrentPosition(async (position) => {
-                setIsLoading(true)
                 lat = position.coords.latitude
                 lon = position.coords.longitude
                 fetchWeather(lat, lon)
                 const city = await getCity(lat, lon)
                 updateLocation(city[0])
-                setIsLoading(false)
             })
+            setIsLoading(false)
         } catch (error) {
             console.log('Error fetching geo location data: ', error)
             toast.error(

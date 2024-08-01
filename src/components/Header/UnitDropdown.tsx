@@ -5,9 +5,16 @@ type Props = {
     setShowMenu: (state: boolean) => void
 }
 
+/**
+ * A dropdown component that allows users to switch between imperial and metric units.
+ */
 export default function UnitDropdown({ setShowMenu }: Props) {
     const { unit, setUnit } = useUnit()
 
+    /**
+     * Handles updating the unit selected and closing
+     * the unit dropdown
+     */
     const handlePress = (unit: string) => {
         setUnit(unit)
         setShowMenu(false)

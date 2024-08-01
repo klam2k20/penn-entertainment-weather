@@ -11,6 +11,9 @@ interface UnitContextValue {
 
 const UnitContext = createContext<UnitContextValue | null>(null)
 
+/**
+ * A React Context for managing unit-related state across components
+ */
 const UnitProvider = ({ children }: Props) => {
     const [unit, setUnit] = useState<string>('imperial')
 
@@ -32,4 +35,4 @@ const useUnit = () => {
     return context
 }
 
-export { useUnit, UnitProvider }
+export { UnitProvider, useUnit }

@@ -8,6 +8,9 @@ import {
 } from '../../lib/utils'
 import DailyStat from './DailyStat'
 
+/**
+ * Displays a grid of daily weather statistics.
+ */
 export default function DailyGrid() {
     const { weather, isLoading } = useWeather()
     const { unit } = useUnit()
