@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { cn } from '../../lib/utils'
-import getLocation from '../../api/geocoding'
+import { getLocation } from '../../api/geocoding'
 import { TGeocodingApiResponse } from '../../lib/types'
 import ResultDropdown from './ResultDropdown'
 import { useWeather } from '../../contexts/WeatherContext'
