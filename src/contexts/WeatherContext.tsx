@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { TGeocodingApiResponse, TWeatherApiResponse } from '../lib/types'
 import { getWeather } from '../api/weather'
+import { getLocation } from '../api/geocoding'
 
 type Props = {
     children: React.ReactNode
@@ -16,11 +17,26 @@ interface WeatherContextValue {
 
 const WeatherContext = createContext<WeatherContextValue | null>(null)
 
-//todo set it to new york on loading
 const WeatherProvider = ({ children }: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [weather, setWeather] = useState<TWeatherApiResponse | null>(null)
     const [location, setLocation] = useState<string>('New York')
+
+    useEffect(() => {
+        const initWeather = async () => {
+            try {
+                setIsLoading(true)
+                const city = await getLocation('New York', 1)
+                fetchWeather(city[0].lat, city[0].lon)
+                updateLocation(city[0])
+                setIsLoading(false)
+            } catch (error) {
+                console.log('Error initializing weather data: ', error)
+            }
+        }
+
+        initWeather()
+    }, [])
 
     const fetchWeather = async (lat: number, lon: number) => {
         try {
