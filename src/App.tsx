@@ -5,7 +5,7 @@ import Header from './components/Header'
 
 function App() {
     return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
             <Header />
             <DailyForecast />
             <HourlyForecast />

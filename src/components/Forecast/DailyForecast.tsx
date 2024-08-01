@@ -10,8 +10,8 @@ export default function DailyForecast() {
     const { unit } = useUnit()
 
     return (
-        <div className="flex flex-col items-start gap-5">
-            <h1>7 DAY FORECAST</h1>
+        <div className="flex flex-col items-start gap-2 md:gap-4">
+            <h1 className="font-semibold md:text-xl">7 DAY FORECAST</h1>
             <ul className="scrollbar-hide flex w-full flex-nowrap gap-4 overflow-x-auto">
                 {weather &&
                     weather.daily &&
