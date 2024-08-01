@@ -28,7 +28,7 @@ interface SharedForecastInfo {
   wind_speed: number;
   wind_gust?: number;
   wind_deg: number;
-  Info: WeatherInfo[],
+  weather: WeatherInfo[],
 }
 
 interface CurrentForecast extends SharedForecastInfo {
@@ -112,3 +112,5 @@ interface WeatherApiResponse {
 
 export type TGeocodingApiResponse = GeocodingApiResponse;
 export type TWeatherApiResponse = WeatherApiResponse;
+export type TDailyForecast = DailyForecast;
+export type THourlyForcast = HourlyForecast;

@@ -50,6 +50,7 @@ export default function ResultDropdown({
                     key={`${r.lat},${r.lon}`}
                     city={r}
                     setShowMenu={setShowMenu}
+                    setResults={setResults}
                 />
             ))}
         </ul>

@@ -4,11 +4,14 @@ import { cn } from '../../lib/utils'
 import getLocation from '../../api/geocoding'
 import { TGeocodingApiResponse } from '../../lib/types'
 import ResultDropdown from './ResultDropdown'
+import { useWeather } from '../../contexts/WeatherContext'
+import { useQuery } from '../../contexts/QueryContext'
 
 export default function Searchbar() {
-    const [query, setQuery] = useState<string>('')
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const [results, setResults] = useState<TGeocodingApiResponse[]>([])
+    const { location } = useWeather()
+    const { query, setQuery } = useQuery()
 
     //todo: handle loading state
     //todo: handle error state
@@ -46,7 +49,7 @@ export default function Searchbar() {
                 <CiSearch className="h-4 w-4 cursor-pointer" />
                 <input
                     type="text"
-                    placeholder="Search city"
+                    placeholder={`${location} Weather`}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={(e) => handleKeyPress(e)}
