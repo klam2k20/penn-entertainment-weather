@@ -94,7 +94,7 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
     return (
         <ul
             ref={dropdownRef}
-            className="absolute top-10 flex w-full flex-col gap-2 border border-zinc-300 bg-zinc-700 px-6 py-3"
+            className="absolute top-10 flex w-full flex-col gap-2 rounded-b-md border border-x-zinc-500 border-b-zinc-500 bg-zinc-700 px-6 py-3"
         >
             <li className="cursor-pointer transition-opacity hover:opacity-50">
                 <button
