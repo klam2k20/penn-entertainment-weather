@@ -6,7 +6,7 @@ import UnitDropdown from './UnitDropdown'
  * Displays a three-dot menu icon and manages the visibility of the UnitDropdown on smaller screens.
  */
 export default function UnitMenu() {
-    const [showMenu, setShowMenu] = useState<boolean>(true)
+    const [showMenu, setShowMenu] = useState<boolean>(false)
     const menuRef = useRef<HTMLUListElement>(null)
 
     /**
