@@ -14,7 +14,7 @@ import CitiesDropdown from './CitiesDropdown'
 export default function Searchbar() {
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const { setCities, setLoading, setHasCities } = useCities()
-    const { location } = useWeather()
+    const { location, isLoading } = useWeather()
     const { query, setQuery } = useQuery()
 
     /**
@@ -68,7 +68,8 @@ export default function Searchbar() {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={(e) => handleSubmit(e)}
                     className="w-full border-none bg-transparent p-0 text-sm focus-visible:outline-none focus-visible:ring-0"
-                    onFocus={() => setShowMenu(true)}
+                    onClick={() => setShowMenu(true)}
+                    disabled={isLoading}
                 />
             </div>
             {showMenu && <CitiesDropdown setShowMenu={memoSetShowMenu} />}
