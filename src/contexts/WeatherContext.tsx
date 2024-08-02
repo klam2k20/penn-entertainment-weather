@@ -33,11 +33,9 @@ const WeatherProvider = ({ children }: Props) => {
     useEffect(() => {
         const initWeather = async () => {
             try {
-                setIsLoading(true)
                 const city = await getLocation('New York', 1)
                 fetchWeather(city[0].lat, city[0].lon)
                 updateLocation(city[0])
-                setIsLoading(false)
             } catch (error) {
                 console.log('Error initializing weather data: ', error)
                 toast.error(
@@ -56,6 +54,7 @@ const WeatherProvider = ({ children }: Props) => {
      */
     const fetchWeather = async (lat: number, lon: number) => {
         try {
+            setIsLoading(true)
             const response = await getWeather(lat, lon)
             setWeather(response)
         } catch (error) {
@@ -63,6 +62,8 @@ const WeatherProvider = ({ children }: Props) => {
             toast.error(
                 'We are having trouble fetching the weather data right now. Please try again later.'
             )
+        } finally {
+            setIsLoading(false)
         }
     }
 

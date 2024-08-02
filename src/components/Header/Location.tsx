@@ -13,7 +13,7 @@ type Props = {
  * Represents a single location item in the CitiesDropdown.
  */
 export default function Location({ city, setShowMenu }: Props) {
-    const { fetchWeather, updateLocation, setIsLoading } = useWeather()
+    const { fetchWeather, updateLocation } = useWeather()
     const { setQuery } = useQuery()
     const { setCities } = useCities()
 
@@ -23,10 +23,9 @@ export default function Location({ city, setShowMenu }: Props) {
      * Calls the `fetchWeather` function with the current selected city.
      * Calls the `updateLocation` function to update the location
      */
-    const handleClick = async (event: React.MouseEvent) => {
+    const handleClick = (event: React.MouseEvent) => {
         event.preventDefault()
         try {
-            setIsLoading(true)
             fetchWeather(city.lat, city.lon)
             updateLocation(city)
         } catch (error) {
@@ -38,7 +37,6 @@ export default function Location({ city, setShowMenu }: Props) {
             setShowMenu(false)
             setCities([])
             setQuery('')
-            setIsLoading(false)
         }
     }
 
