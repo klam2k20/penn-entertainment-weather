@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useWeather } from '../../contexts/WeatherContext'
 
 interface Props extends React.HTMLAttributes<HTMLUListElement> {
@@ -13,25 +13,9 @@ export default function ForecastWrapper({ children, className }: Props) {
     const { isLoading } = useWeather()
 
     /**
-     * Listen for wheel events to handle when a user
-     * scrolls
-     */
-    useEffect(() => {
-        if (containerRef.current) {
-            containerRef.current.addEventListener('wheel', handleScroll)
-        }
-
-        return () => {
-            if (containerRef.current) {
-                containerRef.current.removeEventListener('wheel', handleScroll)
-            }
-        }
-    }, [containerRef])
-
-    /**
      * Handles horizontal scrolling on the daily and hourly forecasts
      */
-    const handleScroll = (event: WheelEvent) => {
+    const handleScroll = (event: React.WheelEvent) => {
         if (
             containerRef.current &&
             containerRef.current.scrollWidth > containerRef.current.clientWidth
@@ -48,7 +32,7 @@ export default function ForecastWrapper({ children, className }: Props) {
     }
 
     return (
-        <ul ref={containerRef} className={className}>
+        <ul ref={containerRef} className={className} onWheel={handleScroll}>
             {children}
         </ul>
     )
