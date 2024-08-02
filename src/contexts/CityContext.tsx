@@ -42,7 +42,7 @@ const CityProvider = ({ children }: Props) => {
 
 const useCities = () => {
     const context = useContext(CityContext)
-    if (!context) throw new Error('useCity must be used within a LoProvider')
+    if (!context) throw new Error('useCity must be used within a CityProvider')
     return context
 }
 
