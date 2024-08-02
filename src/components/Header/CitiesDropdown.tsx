@@ -94,7 +94,7 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
     return (
         <ul
             ref={dropdownRef}
-            className="absolute top-10 flex w-full flex-col gap-2 bg-zinc-700 px-6 py-3"
+            className="absolute top-10 flex w-full flex-col gap-2 border border-zinc-300 bg-zinc-700 px-6 py-3"
         >
             <li className="cursor-pointer transition-opacity hover:opacity-50">
                 <button
@@ -108,7 +108,7 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
             {cities.map((r: TGeocodingApiResponse) => (
                 <Location key={nanoid()} city={r} setShowMenu={setShowMenu} />
             ))}
-            {!hasCities && <div>{`No Citiess found for: ${query}`}</div>}
+            {!hasCities && <div>{`No cities found for: ${query}`}</div>}
         </ul>
     )
 }
