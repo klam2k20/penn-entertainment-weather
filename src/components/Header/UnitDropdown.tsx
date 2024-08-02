@@ -21,7 +21,7 @@ export default function UnitDropdown({ setShowMenu }: Props) {
     }
 
     return (
-        <div className="absolute right-2 top-10 flex w-fit flex-col items-end justify-center gap-1 rounded-md bg-zinc-700">
+        <div className="absolute right-2 top-10 flex w-fit flex-col items-end justify-center gap-1 rounded-md border-zinc-500 bg-zinc-700">
             <button
                 className={cn(
                     'w-full rounded-md bg-transparent px-4 py-2 text-sm text-white transition-all',
