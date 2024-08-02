@@ -48,26 +48,35 @@ export default function CitiesDropdown({ setShowMenu }: Props) {
     }
 
     const handleGeolocation = () => {
-        let lat, lon
+        setShowMenu(false)
+        setQuery('')
+        setIsLoading(true)
 
-        try {
-            setShowMenu(false)
-            setQuery('')
-            setIsLoading(true)
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                lat = position.coords.latitude
-                lon = position.coords.longitude
-                fetchWeather(lat, lon)
-                const city = await getCity(lat, lon)
-                updateLocation(city[0])
-            })
-            setIsLoading(false)
-        } catch (error) {
-            console.log('Error fetching geo location data: ', error)
-            toast.error(
-                "We are having trouble fetching your current location's weather right now. Please try again later."
-            )
-        }
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const lat = position.coords.latitude
+                    const lon = position.coords.longitude
+                    fetchWeather(lat, lon)
+                    const city = await getCity(lat, lon)
+                    updateLocation(city[0])
+                } catch (error) {
+                    console.log('Error fetching weather data: ', error)
+                    toast.error(
+                        "We are having trouble fetching your current location's weather right now. Please try again later."
+                    )
+                } finally {
+                    setIsLoading(false)
+                }
+            },
+            (error) => {
+                console.log('Error getting geolocation: ', error)
+                toast.error(
+                    "We couldn't access your location. Please make sure you've granted permission and try again."
+                )
+                setIsLoading(false)
+            }
+        )
     }
 
     if (loading) {
